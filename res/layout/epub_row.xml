@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/epub"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp" >
+    <RelativeLayout
+            android:layout_height="100dp"
+            android:id="@+id/epub_body"
+            android:layout_width="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal"
+            android:gravity="bottom" >
+
+        <ImageView
+                android:layout_height="100dp"
+                android:id="@+id/epub_thumbnail"
+                android:scaleType="fitXY"
+                android:layout_width="100dp"
+                android:cropToPadding="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" >
+        </ImageView>
+        <TextView
+                android:id="@+id/epub_background_selection"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:background="@android:color/holo_blue_light" >
+
+        </TextView>
+        <LinearLayout
+                android:layout_height="100dp"
+                android:id="@+id/epub_footer"
+                android:layout_width="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:orientation="horizontal"
+                android:gravity="bottom" >
+            <LinearLayout
+                    android:id="@+id/epub_footer_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:gravity="center_horizontal|bottom" >
+
+                <TextView
+                        android:id="@+id/epub_name"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|bottom"
+                        android:textColor="@android:color/primary_text_dark"
+                        android:textSize="12sp" >
+
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
