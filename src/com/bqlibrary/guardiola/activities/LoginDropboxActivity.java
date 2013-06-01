@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import com.bqlibrary.guardiola.dropbox.SearchEpubFiles;
 import com.bqlibrary.guardiola.general.Functions;
 import com.bqlibrary.guardiola.general.Utils;
 import com.dropbox.client2.DropboxAPI;
@@ -24,12 +23,10 @@ public class LoginDropboxActivity extends ActBase {
 
     // Android widgets
     private Button mSubmit;
-
     private Button mSearch;
 
     // Android listeners
     private OnClickListener mSubmitListener;
-
     private OnClickListener mSearchListener;
 
     @Override
@@ -85,7 +82,7 @@ public class LoginDropboxActivity extends ActBase {
         mSearchListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // This logs you out if you're logged in, or vice versa
+                // This starts library activity if you're logged in, or logs in
                 if (mLoggedIn) {
                     // Start library activity
                     Intent i = new Intent(LoginDropboxActivity.this, LibraryActivity.class);
@@ -162,7 +159,6 @@ public class LoginDropboxActivity extends ActBase {
     private void logOut() {
         // Remove credentials from the session
         mApi.getSession().unlink();
-
         // Clear our stored keys
         Functions.clearKeys(this);
         // Change UI state to display logged out version

@@ -75,11 +75,13 @@ public class SearchEpubFiles extends AsyncTask<Void, Long, Boolean> {
             return false;
         }
         Epub epub;
+        // Mock - Load a generic icon
         mIcon = BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.address_book);
         for(Entry ent : epubFiles) {
+            // Create a epub item
             epub = new Epub(ent.fileName(), ent.path, mIcon);
-            // Add it to the list of epub files names
+            // Add it to the list of epub files
             mEpubList.add(epub);
         }
 
@@ -95,7 +97,9 @@ public class SearchEpubFiles extends AsyncTask<Void, Long, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if (result) {
+            // Once we have the result, create the adapter with the epubs list
             mEpubAdapter = new EpubAdapter(mEpubList, mContext);
+            // and set it with the grid view
             mLibraryGridView.setAdapter(mEpubAdapter);
             // Mock
             for (Epub epub : mEpubList) {

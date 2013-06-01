@@ -1,7 +1,6 @@
 package com.bqlibrary.guardiola.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,10 +31,9 @@ public class LibraryActivity extends ActBase {
     private AdapterView.OnItemClickListener gridComponentListener;
 
     private EpubAdapter mEpubAdapter;
+    private ArrayList<Epub> mEpubList;
 
     DropboxAPI<AndroidAuthSession> mApi;
-
-    private ArrayList<Epub> mEpubList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +65,7 @@ public class LibraryActivity extends ActBase {
 
     @Override
     protected void initValues() {
-        // Make a list of the epub files names
+        // Make a list of the epub files
         mEpubList = new ArrayList<Epub>();
     }
 
@@ -85,6 +83,7 @@ public class LibraryActivity extends ActBase {
 
     @Override
     protected void init() {
+        // Starts the task for searching the epub files in Dropbox
         SearchEpubFiles searchEpubFiles = new SearchEpubFiles(LibraryActivity.this, mApi, "/", mEpubList, mEpubAdapter,
                 mLibraryGridView);
         searchEpubFiles.execute();
