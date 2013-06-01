@@ -1,0 +1,15 @@
+<menu xmlns:android=
+      "http://schemas.android.com/apk/res/android" >
+    <item
+            android:icon="@drawable/collections_sort_by_size"
+            android:showAsAction="ifRoom">
+        <menu>
+            <item
+                    android:id="@+id/menuSortName"
+                    android:title="Sort by name" />
+            <item
+                    android:id="@+id/menuSortDate"
+                    android:title="Sort by date" />
+        </menu>
+    </item>
+</menu>
