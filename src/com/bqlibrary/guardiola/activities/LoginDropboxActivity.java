@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import com.bqlibrary.guardiola.dropbox.SearchEpubFiles;
 import com.bqlibrary.guardiola.general.Constants;
 import com.bqlibrary.guardiola.general.Utils;
 import com.dropbox.client2.DropboxAPI;
@@ -28,8 +29,12 @@ public class LoginDropboxActivity extends ActBase {
     // Android widgets
     private Button mSubmit;
 
+    private Button mSearch;
+
     // Android listeners
     private OnClickListener mSubmitListener;
+
+    private OnClickListener mSearchListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class LoginDropboxActivity extends ActBase {
     @Override
     protected void initViews() {
         mSubmit = (Button)findViewById(R.id.auth_button);
+        mSearch = (Button)findViewById(R.id.search_button);
     }
 
     @Override
@@ -79,6 +85,21 @@ public class LoginDropboxActivity extends ActBase {
             }
         };
         mSubmit.setOnClickListener(mSubmitListener);
+
+        mSearchListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // This logs you out if you're logged in, or vice versa
+                if (mLoggedIn) {
+                    SearchEpubFiles searchEpubFiles = new SearchEpubFiles(LoginDropboxActivity.this, mApi, "/");
+                    searchEpubFiles.execute();
+                } else {
+                    // Start the remote authentication
+                    mApi.getSession().startAuthentication(LoginDropboxActivity.this);
+                }
+            }
+        };
+        mSearch.setOnClickListener(mSearchListener);
     }
 
     @Override

@@ -10,5 +10,11 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             />
+    <Button
+            android:id="@+id/search_button"
+            android:text="Search epub files"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
 </LinearLayout>
 
