@@ -1,5 +1,7 @@
 package com.bqlibrary.guardiola.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,8 +11,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import com.bqlibrary.guardiola.dropbox.DownloadEpubFile;
 import com.bqlibrary.guardiola.dropbox.SearchEpubFiles;
+import com.bqlibrary.guardiola.general.Constants;
 import com.bqlibrary.guardiola.general.Functions;
 import com.bqlibrary.guardiola.gui.adapters.EpubAdapter;
 import com.bqlibrary.guardiola.model.Epub;
@@ -39,6 +44,8 @@ public class LibraryActivity extends ActBase {
     private ArrayList<Epub> mEpubList;
 
     DropboxAPI<AndroidAuthSession> mApi;
+
+    private int mPosEpubSelected;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,6 +127,7 @@ public class LibraryActivity extends ActBase {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mPosEpubSelected = position;
                 if(mEpubList.get(position).getmSselected()) {
                     mEpubList.get(position).setmSselected(false);
                 }
@@ -127,7 +135,7 @@ public class LibraryActivity extends ActBase {
                     mEpubList.get(position).setmSselected(true);
                     // Starts the task for downloading the epub file
                     DownloadEpubFile downloadEpubFile = new DownloadEpubFile(LibraryActivity.this, mApi,
-                            mEpubList.get(position).getmPathEpub());
+                            mEpubList.get(position), handler);
                     downloadEpubFile.execute();
                 }
                 // Create the adapter with the new epubs list order
@@ -155,7 +163,30 @@ public class LibraryActivity extends ActBase {
 
     @Override
     protected void handleMessageReceived(int what, int arg1, int arg2, Object obj) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // Download book response OK
+        if (what == Constants.WHAT_DOWNLOAD_EPUB_OK) {
+            //Create a Dialog to display the thumbnail
+            AlertDialog.Builder thumbDialog = new AlertDialog.Builder(LibraryActivity.this);
+            ImageView thumbView = new ImageView(LibraryActivity.this);
+            thumbView.setImageBitmap(mEpubList.get(mPosEpubSelected).getmCover());
+            LinearLayout layout = new LinearLayout(LibraryActivity.this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.addView(thumbView);
+            thumbDialog.setView(layout);
+            thumbDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // if this button is clicked, just close
+                    // the dialog box and do nothing
+                    dialog.cancel();
+                }
+            });
+            thumbDialog.show();
+
+        }
+        // Download book ERROR
+        else if(what == Constants.WHAT_ERROR_DOWNLOAD_EPUB) {
+
+        }
     }
 
     @Override

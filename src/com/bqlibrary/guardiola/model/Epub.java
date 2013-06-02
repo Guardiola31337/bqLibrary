@@ -19,8 +19,9 @@ public class Epub {
     private String mPathEpub;
     private Bitmap mThumbnail;
     private Boolean mSselected;
-
     private Date mDateCreated;
+    private String mTitle;
+    private Bitmap mCover;
 
     public Epub() {
     }
@@ -54,8 +55,24 @@ public class Epub {
         return mDateCreated;
     }
 
+    public String getmTitle() {
+        return mTitle;
+    }
+
+    public Bitmap getmCover() {
+        return mCover;
+    }
+
     public void setmSselected(Boolean mSselected) {
         this.mSselected = mSselected;
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+    public void setmCover(Bitmap mCover) {
+        this.mCover = mCover;
     }
 
 }

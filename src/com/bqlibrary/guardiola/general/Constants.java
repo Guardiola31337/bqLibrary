@@ -51,4 +51,7 @@ public class Constants {
 
     // Alpha constants
     public static final int ALPHA_TRANSPARENCY_60 = 153;
+
+    public static final int WHAT_DOWNLOAD_EPUB_OK = 0;
+    public static final int WHAT_ERROR_DOWNLOAD_EPUB = 1;
 }
