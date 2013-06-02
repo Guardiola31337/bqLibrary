@@ -3,6 +3,11 @@ package com.bqlibrary.guardiola.general;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrador
@@ -22,5 +27,17 @@ public class Utils {
     public static void showToast(String msg, Context context) {
         Toast error = Toast.makeText(context, msg, Toast.LENGTH_LONG);
         error.show();
+    }
+
+    public static Date stringToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+        Date date = null;
+        try {
+            date = sdf.parse(time);
+            System.out.println("epub date: " + date.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return date;
     }
 }

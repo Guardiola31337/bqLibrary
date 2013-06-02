@@ -17,6 +17,8 @@ import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,8 +50,28 @@ public class LibraryActivity extends ActBase {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuSortName:
+                Collections.sort(mEpubList, new Comparator<Epub>() {
+                    @Override
+                    public int compare(final Epub object1, final Epub object2) {
+                        return object1.getmNameEpub().compareTo(object2.getmNameEpub());
+                    }
+                });
+                // Create the adapter with the new epubs list order
+                mEpubAdapter = new EpubAdapter(mEpubList, this);
+                // and set it with the grid view to refresh
+                mLibraryGridView.setAdapter(mEpubAdapter);
                 break;
             case R.id.menuSortDate:
+                Collections.sort(mEpubList, new Comparator<Epub>() {
+                    @Override
+                    public int compare(final Epub object1, final Epub object2) {
+                        return object1.getmDateCreated().compareTo(object2.getmDateCreated());
+                    }
+                });
+                // Create the adapter with the new epubs list order
+                mEpubAdapter = new EpubAdapter(mEpubList, this);
+                // and set it with the grid view to refresh
+                mLibraryGridView.setAdapter(mEpubAdapter);
                 break;
         }
         return true;
@@ -87,6 +109,8 @@ public class LibraryActivity extends ActBase {
     protected void initValues() {
         // Make a list of the epub files
         mEpubList = new ArrayList<Epub>();
+        mEpubAdapter = new EpubAdapter(mEpubList, this);
+
     }
 
     @Override

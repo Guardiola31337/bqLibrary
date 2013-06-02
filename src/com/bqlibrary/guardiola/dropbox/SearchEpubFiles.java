@@ -15,6 +15,7 @@ import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.exception.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,14 +76,23 @@ public class SearchEpubFiles extends AsyncTask<Void, Long, Boolean> {
             return false;
         }
         Epub epub;
+        Date dateEpubCreated;
         // Mock - Load a generic icon
         mIcon = BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.address_book);
         for(Entry ent : epubFiles) {
-            // Create a epub item
-            epub = new Epub(ent.fileName(), ent.path, mIcon);
-            // Add it to the list of epub files
-            mEpubList.add(epub);
+            // Validation of the mime-type of the file so we are sure that it is an epub
+            // and we avoid problems with files that include .epub in their names
+            if(ent.mimeType.equals(Constants.MIMETYPE_EPUB)) {
+                dateEpubCreated = Utils.stringToDate(ent.clientMtime);
+                // Create a epub item
+                epub = new Epub(ent.fileName(), ent.path, mIcon, dateEpubCreated);
+                System.out.println("epub mimetype: " + ent.mimeType);
+                System.out.println("epub client_mtime: " + ent.clientMtime);
+                System.out.println("epub has thumbnail: " + ent.thumbExists);
+                // Add it to the list of epub files
+                mEpubList.add(epub);
+            }
         }
 
         if (mCanceled) {

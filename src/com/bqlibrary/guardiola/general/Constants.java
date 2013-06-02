@@ -47,6 +47,7 @@ public class Constants {
     public static final String ACCESS_SECRET_NAME = "ACCESS_SECRET";
 
     public static final String EPUB = ".epub";
+    public static final String MIMETYPE_EPUB = "application/epub+zip";
 
     // Alpha constants
     public static final int ALPHA_TRANSPARENCY_60 = 153;

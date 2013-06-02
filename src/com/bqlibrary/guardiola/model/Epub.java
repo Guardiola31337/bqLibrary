@@ -2,6 +2,8 @@ package com.bqlibrary.guardiola.model;
 
 import android.graphics.Bitmap;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrador
@@ -18,14 +20,17 @@ public class Epub {
     private Bitmap mThumbnail;
     private Boolean mSselected;
 
+    private Date mDateCreated;
+
     public Epub() {
     }
 
-    public Epub(String nameEpub, String pathEpub, Bitmap thumbnail) {
+    public Epub(String nameEpub, String pathEpub, Bitmap thumbnail, Date dateCreated) {
         this.mNameEpub = nameEpub;
         this.mPathEpub = pathEpub;
         this.mThumbnail = thumbnail;
         this.mSselected = false;
+        this.mDateCreated = dateCreated;
 
     }
 
@@ -43,6 +48,10 @@ public class Epub {
 
     public Boolean getmSselected() {
         return mSselected;
+    }
+
+    public Date getmDateCreated() {
+        return mDateCreated;
     }
 
     public void setmSselected(Boolean mSselected) {
