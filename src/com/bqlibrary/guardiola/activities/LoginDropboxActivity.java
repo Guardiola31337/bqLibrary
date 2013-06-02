@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.bqlibrary.guardiola.general.Constants;
 import com.bqlibrary.guardiola.general.Functions;
 import com.bqlibrary.guardiola.general.Utils;
 import com.dropbox.client2.DropboxAPI;
@@ -150,8 +151,8 @@ public class LoginDropboxActivity extends ActBase {
                 Functions.storeKeys(tokens.key, tokens.secret, this);
                 setLoggedIn(true);
             } catch (IllegalStateException e) {
-                Utils.showToast("Couldn't authenticate with Dropbox:" + e.getLocalizedMessage(), this);
-                Log.i(TAG, "Error authenticating", e);
+                Utils.showToast(Constants.COULDNT_AUTHENTICATE_DROPBOX + e.getLocalizedMessage(), this);
+                Log.i(TAG, Constants.ERROR_AUTHENTICATING_DROPBOX, e);
             }
         }
     }
@@ -171,9 +172,9 @@ public class LoginDropboxActivity extends ActBase {
     private void setLoggedIn(boolean loggedIn) {
         mLoggedIn = loggedIn;
         if (loggedIn) {
-            mSubmit.setText("Unlink from Dropbox");
+            mSubmit.setText(Constants.UNLINK_DROPBOX);
         } else {
-            mSubmit.setText("Link with Dropbox");
+            mSubmit.setText(Constants.LINK_DROPBOX);
         }
     }
 }

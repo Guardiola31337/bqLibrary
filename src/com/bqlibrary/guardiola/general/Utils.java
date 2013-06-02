@@ -34,7 +34,6 @@ public class Utils {
         Date date = null;
         try {
             date = sdf.parse(time);
-            System.out.println("epub date: " + date.toString());
         } catch (ParseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

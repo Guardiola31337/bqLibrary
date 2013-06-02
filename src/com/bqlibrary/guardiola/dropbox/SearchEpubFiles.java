@@ -66,13 +66,13 @@ public class SearchEpubFiles extends AsyncTask<Void, Long, Boolean> {
         try {
             epubFiles = mApi.search(mPath, Constants.EPUB, 0, false);
         } catch (DropboxException e) {
-            mErrorMsg = "Couldn't search epub files";
+            mErrorMsg = Constants.COULDNT_SEARCH_EPUB_FILES;
             return false;
         }
 
         if (epubFiles.size() == 0) {
             // There aren't epub files
-            mErrorMsg = "There aren't epub files";
+            mErrorMsg = Constants.NO_EPUB_FILES;
             return false;
         }
         Epub epub;
@@ -87,9 +87,6 @@ public class SearchEpubFiles extends AsyncTask<Void, Long, Boolean> {
                 dateEpubCreated = Utils.stringToDate(ent.clientMtime);
                 // Create a epub item
                 epub = new Epub(ent.fileName(), ent.path, mIcon, dateEpubCreated);
-                System.out.println("epub mimetype: " + ent.mimeType);
-                System.out.println("epub client_mtime: " + ent.clientMtime);
-                System.out.println("epub has thumbnail: " + ent.thumbExists);
                 // Add it to the list of epub files
                 mEpubList.add(epub);
             }
@@ -111,12 +108,7 @@ public class SearchEpubFiles extends AsyncTask<Void, Long, Boolean> {
             mEpubAdapter = new EpubAdapter(mEpubList, mContext);
             // and set it with the grid view
             mLibraryGridView.setAdapter(mEpubAdapter);
-            // Mock
-            for (Epub epub : mEpubList) {
-                System.out.println("epubName: " + epub.getmNameEpub());
-            }
-            System.out.println("Epub number files: " + mEpubList.size());
-            Utils.showToast("Epub files successfully got", mContext);
+            Utils.showToast(Constants.EPUB_FILES_GOT, mContext);
         } else {
             Utils.showToast(mErrorMsg, mContext);
         }

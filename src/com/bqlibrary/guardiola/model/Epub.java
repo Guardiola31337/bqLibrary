@@ -22,6 +22,7 @@ public class Epub {
     private Date mDateCreated;
     private String mTitle;
     private Bitmap mCover;
+    private Boolean mDownloaded;
 
     public Epub() {
     }
@@ -32,6 +33,7 @@ public class Epub {
         this.mThumbnail = thumbnail;
         this.mSselected = false;
         this.mDateCreated = dateCreated;
+        this.mDownloaded = false;
 
     }
 
@@ -62,6 +64,9 @@ public class Epub {
     public Bitmap getmCover() {
         return mCover;
     }
+    public Boolean getmDownloaded() {
+        return mDownloaded;
+    }
 
     public void setmSselected(Boolean mSselected) {
         this.mSselected = mSselected;
@@ -73,6 +78,10 @@ public class Epub {
 
     public void setmCover(Bitmap mCover) {
         this.mCover = mCover;
+    }
+
+    public void setmDownloaded(Boolean mDownloaded) {
+        this.mDownloaded = mDownloaded;
     }
 
 }

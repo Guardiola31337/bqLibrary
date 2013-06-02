@@ -54,4 +54,21 @@ public class Constants {
 
     public static final int WHAT_DOWNLOAD_EPUB_OK = 0;
     public static final int WHAT_ERROR_DOWNLOAD_EPUB = 1;
+
+    public static final String CLOSE_DIALOG = "Close";
+    public static final String COULDNT_AUTHENTICATE_DROPBOX = "Couldn't authenticate with Dropbox:";
+    public static final String ERROR_AUTHENTICATING_DROPBOX = "Error authenticating";
+    public static final String UNLINK_DROPBOX = "Unlink from Dropbox";
+    public static final String LINK_DROPBOX = "Link with Dropbox";
+    public static final String DOWNLOADING_EPUB = "Downloading Epub";
+    public static final String CANCEL = "Cancel";
+    public static final String CANCELED = "Canceled";
+    public static final String COULDNT_GET_EPUB_METADATA = "Couldn't get epub metadata";
+    public static final String COULDNT_CREATE_EPUB_BOOK = "Couldn't create epub book";
+    public static final String COULDNT_GET_EPUB_FILE = "Couldn't get epub file";
+    public static final String DOWNLOADED = "Downloaded!";
+    public static final String COULDNT_SEARCH_EPUB_FILES = "Couldn't search epub files";
+    public static final String NO_EPUB_FILES = "There aren't epub files";
+    public static final String EPUB_FILES_GOT = "Epub files successfully got";
+
 }

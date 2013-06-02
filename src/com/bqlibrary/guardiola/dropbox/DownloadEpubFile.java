@@ -55,11 +55,11 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
         mHandler = handler;
 
         mDialog = new ProgressDialog(context);
-        mDialog.setMessage("Downloading Epub");
-        mDialog.setButton("Cancel", new OnClickListener() {
+        mDialog.setMessage(Constants.DOWNLOADING_EPUB);
+        mDialog.setButton(Constants.CANCEL, new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 mCanceled = true;
-                mErrorMsg = "Canceled";
+                mErrorMsg = Constants.CANCELED;
             }
         });
 
@@ -77,7 +77,7 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
         try {
             dirent = mApi.metadata(mPath, 1, null, false, null);
         } catch (DropboxException e) {
-            mErrorMsg = "Couldn't get epub metadata";
+            mErrorMsg = Constants.COULDNT_GET_EPUB_METADATA;
             return false;
         }
 
@@ -91,7 +91,6 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
         DropboxInputStream info = null;
         try {
             info = mApi.getFileStream(mPath, null);
-            System.out.println("epub downloaded ok!");
             if (mCanceled) {
                 return false;
             }
@@ -100,20 +99,18 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
                 book = (new EpubReader()).readEpub(info);
                 // Set the book's title
                 mEpubSelected.setmTitle(book.getTitle());
-                // Log the book's title
-                System.out.println("epublib title: " + book.getTitle());
                 // Set the book's cover
                 coverImage = BitmapFactory.decodeStream(book.getCoverImage()
                         .getInputStream());
                 mEpubSelected.setmCover(coverImage);
 
             } catch (IOException e) {
-                mErrorMsg = "Couldn't create epub book";
+                mErrorMsg = Constants.COULDNT_CREATE_EPUB_BOOK;
                 return false;
             }
 
         } catch (DropboxException e) {
-            mErrorMsg = "Couldn't get epub file";
+            mErrorMsg = Constants.COULDNT_GET_EPUB_FILE;
             return false;
         }
 
@@ -137,7 +134,7 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
         int what;
         if (result) {
             // Mock
-            Utils.showToast("Downloaded!", mContext);
+            Utils.showToast(Constants.DOWNLOADED, mContext);
             what = Constants.WHAT_DOWNLOAD_EPUB_OK;
         } else {
             // Couldn't download it, so show an error

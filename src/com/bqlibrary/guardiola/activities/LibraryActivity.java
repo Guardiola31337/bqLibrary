@@ -132,11 +132,31 @@ public class LibraryActivity extends ActBase {
                     mEpubList.get(position).setmSselected(false);
                 }
                 else {
-                    mEpubList.get(position).setmSselected(true);
-                    // Starts the task for downloading the epub file
-                    DownloadEpubFile downloadEpubFile = new DownloadEpubFile(LibraryActivity.this, mApi,
-                            mEpubList.get(position), handler);
-                    downloadEpubFile.execute();
+                    if(!mEpubList.get(position).getmDownloaded()) {
+                        mEpubList.get(position).setmSselected(true);
+                        // Starts the task for downloading the epub file
+                        DownloadEpubFile downloadEpubFile = new DownloadEpubFile(LibraryActivity.this, mApi,
+                                mEpubList.get(position), handler);
+                        downloadEpubFile.execute();
+                    }
+                    else {
+                        //Create a Dialog to display the thumbnail
+                        AlertDialog.Builder thumbDialog = new AlertDialog.Builder(LibraryActivity.this);
+                        ImageView thumbView = new ImageView(LibraryActivity.this);
+                        thumbView.setImageBitmap(mEpubList.get(position).getmCover());
+                        LinearLayout layout = new LinearLayout(LibraryActivity.this);
+                        layout.setOrientation(LinearLayout.VERTICAL);
+                        layout.addView(thumbView);
+                        thumbDialog.setView(layout);
+                        thumbDialog.setNegativeButton(Constants.CLOSE_DIALOG, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                dialog.cancel();
+                            }
+                        });
+                        thumbDialog.show();
+                    }
                 }
                 // Create the adapter with the new epubs list order
                 mEpubAdapter = new EpubAdapter(mEpubList, getApplicationContext());
@@ -166,6 +186,7 @@ public class LibraryActivity extends ActBase {
     protected void handleMessageReceived(int what, int arg1, int arg2, Object obj) {
         // Download book response OK
         if (what == Constants.WHAT_DOWNLOAD_EPUB_OK) {
+            mEpubList.get(mPosEpubSelected).setmDownloaded(true);
             //Create a Dialog to display the thumbnail
             AlertDialog.Builder thumbDialog = new AlertDialog.Builder(LibraryActivity.this);
             ImageView thumbView = new ImageView(LibraryActivity.this);
@@ -174,7 +195,7 @@ public class LibraryActivity extends ActBase {
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.addView(thumbView);
             thumbDialog.setView(layout);
-            thumbDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            thumbDialog.setNegativeButton(Constants.CLOSE_DIALOG, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     // if this button is clicked, just close
                     // the dialog box and do nothing
