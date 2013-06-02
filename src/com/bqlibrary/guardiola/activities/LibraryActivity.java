@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import com.bqlibrary.guardiola.dropbox.DownloadEpubFile;
 import com.bqlibrary.guardiola.dropbox.SearchEpubFiles;
 import com.bqlibrary.guardiola.general.Functions;
 import com.bqlibrary.guardiola.gui.adapters.EpubAdapter;
@@ -109,7 +110,7 @@ public class LibraryActivity extends ActBase {
     protected void initValues() {
         // Make a list of the epub files
         mEpubList = new ArrayList<Epub>();
-        mEpubAdapter = new EpubAdapter(mEpubList, this);
+        mEpubAdapter = new EpubAdapter(mEpubList, getApplicationContext());
 
     }
 
@@ -119,7 +120,20 @@ public class LibraryActivity extends ActBase {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                if(mEpubList.get(position).getmSselected()) {
+                    mEpubList.get(position).setmSselected(false);
+                }
+                else {
+                    mEpubList.get(position).setmSselected(true);
+                    // Starts the task for downloading the epub file
+                    DownloadEpubFile downloadEpubFile = new DownloadEpubFile(LibraryActivity.this, mApi,
+                            mEpubList.get(position).getmPathEpub());
+                    downloadEpubFile.execute();
+                }
+                // Create the adapter with the new epubs list order
+                mEpubAdapter = new EpubAdapter(mEpubList, getApplicationContext());
+                // and set it with the grid view to refresh
+                mLibraryGridView.setAdapter(mEpubAdapter);
             }
         };
         mLibraryGridView.setOnItemClickListener(gridComponentListener);
