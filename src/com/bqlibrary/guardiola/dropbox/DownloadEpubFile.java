@@ -1,18 +1,18 @@
 package com.bqlibrary.guardiola.dropbox;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Context;
 import android.os.AsyncTask;
 import com.bqlibrary.guardiola.general.Utils;
 import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.DropboxAPI.DropboxInputStream;
 import com.dropbox.client2.DropboxAPI.Entry;
-import com.dropbox.client2.DropboxAPI.DropboxFileInfo;
-import com.dropbox.client2.exception.*;
+import com.dropbox.client2.exception.DropboxException;
+import nl.siegmann.epublib.domain.Book;
+import nl.siegmann.epublib.epub.EpubReader;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -28,8 +28,6 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
     private final ProgressDialog mDialog;
     private DropboxAPI<?> mApi;
     private String mPath;
-
-    private FileOutputStream mFos;
 
     private boolean mCanceled;
     private Long mFileLen;
@@ -49,15 +47,6 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
             public void onClick(DialogInterface dialog, int which) {
                 mCanceled = true;
                 mErrorMsg = "Canceled";
-
-                // This will cancel the getEpub operation by closing
-                // its stream
-                if (mFos != null) {
-                    try {
-                        mFos.close();
-                    } catch (IOException e) {
-                    }
-                }
             }
         });
 
@@ -85,28 +74,29 @@ public class DownloadEpubFile extends AsyncTask<Void, Long, Boolean> {
 
         mFileLen = dirent.bytes;
 
-        String cachePath = mContext.getCacheDir().getAbsolutePath() + "/" + dirent.fileName();
-        try {
-            mFos = new FileOutputStream(cachePath);
-        } catch (FileNotFoundException e) {
-            mErrorMsg = "Couldn't create a local file to store the epub";
-            return false;
-        }
-
         // This downloads the actual epub file
-        DropboxFileInfo info = null;
+        DropboxInputStream info = null;
         try {
-            info = mApi.getFile(mPath, null, mFos, null);
+            info = mApi.getFileStream(mPath, null);
             System.out.println("epub downloaded ok!");
+            if (mCanceled) {
+                return false;
+            }
+            Book book = null;
+            try {
+                book = (new EpubReader()).readEpub(info);
+                // Log the book's authors
+                System.out.println("epublib author(s): " + book.getMetadata().getAuthors());
+                // Log the book's title
+                System.out.println("epublib title: " + book.getTitle());
+            } catch (IOException e) {
+                mErrorMsg = "Couldn't create epub book";
+                return false;
+            }
+
         } catch (DropboxException e) {
             mErrorMsg = "Couldn't get epub file";
             return false;
-        } finally {
-            if (mFos != null) {
-                try {
-                    mFos.close();
-                } catch (IOException e) {}
-            }
         }
 
         if (mCanceled) {
