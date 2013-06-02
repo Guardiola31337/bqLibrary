@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +38,7 @@ public class LibraryActivity extends ActBase {
     public final static String TAG = "[com.bqlibrary.guardiola.activities.LibraryActivity]";
 
     private GridView mLibraryGridView;
-    private AdapterView.OnItemClickListener gridComponentListener;
+    private OnItemLongClickListener gridComponentListener;
 
     private EpubAdapter mEpubAdapter;
     private ArrayList<Epub> mEpubList;
@@ -123,10 +123,10 @@ public class LibraryActivity extends ActBase {
 
     @Override
     protected void initListeners() {
-        gridComponentListener = new OnItemClickListener() {
-
+        // Long Press is a recommeded interaction in the UI Guidelines, double touch is not
+        gridComponentListener = new OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 mPosEpubSelected = position;
                 if(mEpubList.get(position).getmSselected()) {
                     mEpubList.get(position).setmSselected(false);
@@ -142,9 +142,10 @@ public class LibraryActivity extends ActBase {
                 mEpubAdapter = new EpubAdapter(mEpubList, getApplicationContext());
                 // and set it with the grid view to refresh
                 mLibraryGridView.setAdapter(mEpubAdapter);
+                return false;
             }
         };
-        mLibraryGridView.setOnItemClickListener(gridComponentListener);
+        mLibraryGridView.setOnItemLongClickListener(gridComponentListener);
     }
 
     @Override
