@@ -57,6 +57,11 @@ public class LibraryActivity extends ActBase {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                // This is called when the Home (Up) button is pressed
+                // in the Action Bar.
+                onBackPressed();
+                break;
             case R.id.menuSortName:
                 Collections.sort(mEpubList, new Comparator<Epub>() {
                     @Override
@@ -115,6 +120,8 @@ public class LibraryActivity extends ActBase {
 
     @Override
     protected void initValues() {
+        // Implementing up navigation
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         // Make a list of the epub files
         mEpubList = new ArrayList<Epub>();
         mEpubAdapter = new EpubAdapter(mEpubList, getApplicationContext());
@@ -132,8 +139,8 @@ public class LibraryActivity extends ActBase {
                     mEpubList.get(position).setmSselected(false);
                 }
                 else {
+                    mEpubList.get(position).setmSselected(true);
                     if(!mEpubList.get(position).getmDownloaded()) {
-                        mEpubList.get(position).setmSselected(true);
                         // Starts the task for downloading the epub file
                         DownloadEpubFile downloadEpubFile = new DownloadEpubFile(LibraryActivity.this, mApi,
                                 mEpubList.get(position), handler);
