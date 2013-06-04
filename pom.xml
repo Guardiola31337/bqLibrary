@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.bqlibrary.guardiola.activities</groupId>
+    <artifactId>bqLibrary</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>apk</packaging>
+    <name>bq Library</name>
+
+    <repositories>
+        <repository>
+            <id>psiegman-repo</id>
+            <url>https://github.com/psiegman/mvn-repo/raw/master/releases</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <android.version>4.0.1.2</android.version>
+        <junit.version>4.11</junit.version>
+        <android.maven.version>3.6.0</android.maven.version>
+        <maven.compiler.version>3.0</maven.compiler.version>
+        <min.jdk.version>1.6</min.jdk.version>
+
+    </properties>
+
+    <dependencies>
+        <!-- Android -->
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>${android.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android-test</artifactId>
+            <version>${android.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- SLF4J -->
+        <!-- Deleted because it's already added in epublib-core -->
+
+        <!-- JSON -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+
+        <!-- EPUBLIB -->
+        <!-- REMEMBER to change the scope of xmlpull:xmlpull:1.1.3.4d_b4_min to Provided on Project Settings dependencies to avoid conflicts -->
+        <dependency>
+            <groupId>nl.siegmann.epublib</groupId>
+            <artifactId>epublib-core</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <!-- DROPBOX -->
+        <!-- The official dropbox API is not publish on Maven central repository. -->
+        <!-- Add the dependency following the next steps: -->
+        <!-- File -> Project Structure (ctrl + shift + alt + s ) -> Module -> Dependencies -> add... -> Project Library -> Attach Jar -->
+        <!-- Select dropbox-android-sdk-1.5.4.jar from libs folder -->
+
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>${android.maven.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <sdk>
+                        <platform>14</platform>
+                    </sdk>
+                    <sign>
+                        <debug>true</debug>
+                    </sign>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <source>${min.jdk.version}</source>
+                    <target>${min.jdk.version}</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
